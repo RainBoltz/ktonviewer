@@ -8,6 +8,10 @@ import {
 } from "./elector-utils-official";
 import { Address } from "@ton/core";
 import ReactJson from "react-json-view";
+import {
+  controllerStateStringify,
+  loadControllerState,
+} from "./controller-utils";
 
 function addressDisplay(addr: string, isTestnet: boolean = false) {
   try {
@@ -18,10 +22,6 @@ function addressDisplay(addr: string, isTestnet: boolean = false) {
   } catch (e) {
     return addr;
   }
-}
-
-function JsonViewer({ data }: { data: any }) {
-  return <ReactJson src={JSON.parse(electorStateStringify(data))} />;
 }
 
 function App() {
@@ -42,15 +42,14 @@ function App() {
 
   const handleLeftSubmit = async () => {
     setIsLeftLoading(true);
-    try {
-      const response = await fetch(leftAddress);
-      const data = await response.json();
+    //try {
+      const data = await loadControllerState(leftAddress, isTestnet);
       setLeftData(data);
-    } catch (error) {
-      setLeftData({ error: "Failed to fetch data" });
-    } finally {
-      setIsLeftLoading(false);
-    }
+    // } catch (error) {
+    //   setLeftData({ error: "Failed to fetch data" });
+    // } finally {
+    //   setIsLeftLoading(false);
+    // }
   };
 
   const handleRightRefresh = async () => {
@@ -88,10 +87,10 @@ function App() {
                   : "hover:bg-blue-700"
               }`}
             >
-              {isLeftLoading ? "..." : "Submit"}
+              {isLeftLoading ? "fetching" : "Submit"}
             </button>
           </div>
-          <JsonViewer data={leftData} />
+          <ReactJson src={JSON.parse(controllerStateStringify(leftData))} />
         </div>
 
         {/* Right Panel */}
@@ -120,7 +119,7 @@ function App() {
               {isRightLoading ? "fetching" : "Refresh"}
             </button>
           </div>
-          <JsonViewer data={rightData} />
+          <ReactJson src={JSON.parse(electorStateStringify(rightData))} />
         </div>
       </div>
     </div>

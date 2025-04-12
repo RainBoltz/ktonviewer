@@ -191,7 +191,6 @@ export function UnReadablesReplacer(
   if (Buffer.isBuffer(key)) {
     key = key.toString("hex");
   }
-  //console.log(key, value);
   if (typeof value === "bigint") {
     return value.toString() + "n";
   } else if (value instanceof Dictionary) {

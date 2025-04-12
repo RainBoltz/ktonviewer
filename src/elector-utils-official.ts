@@ -195,7 +195,6 @@ const complaintStatusValue: DictionaryValue<ComplaintStatus> = {
     src.skip(8);
     const comp = src.loadRef().beginParse();
     comp.skip(8);
-    console.log(2.5);
     return {
       complaint: {
         validator_pubkey: comp.loadBuffer(32),
@@ -302,18 +301,14 @@ function parseStorage(s: Slice): ElectorStorage {
       finished: es.loadBoolean(),
     };
   }
-  console.log(1);
   const credits = s.loadDict(Dictionary.Keys.Buffer(32), coinValue);
-  console.log(2);
   const past_elections = s.loadDict(
     Dictionary.Keys.Uint(32),
     pastElectionValue
   );
-  console.log(3);
   const grams = s.loadCoins();
   const active_id = s.loadUint(32);
   const active_hash = s.loadBuffer(32);
-  console.log(4);
   return {
     elect,
     credits,
@@ -371,9 +366,9 @@ export const electorStateStringify = (action: any) =>
   JSON.stringify(
     action,
     (k, v) => {
-      if (k == "banned") {
-        return undefined;
-      }
+      // if (k == "banned") {
+      //   return undefined;
+      // }
       if (typeof v === "bigint") {
         if (k.includes("weight")) return v.toString();
         return fromNano(v);
