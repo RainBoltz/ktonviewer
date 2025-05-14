@@ -168,8 +168,8 @@ function parseStorage(s1: Slice): PoolStorage {
   }
 
   const interest_rate = s1.loadUint(24);
-  const deposits_open = s1.loadBoolean();
   const optimistic_deposit_withdrawals = s1.loadBoolean();
+  const deposits_open = s1.loadBoolean();
   const instant_withdrawal_fee = s1.loadUint(24);
   const deposit_withdrawal_parameters = {
     deposits_open,
