@@ -53,7 +53,7 @@ function parseBorrowersData(s: Slice): BorrowersData {
   const borrowed = s.loadCoins();
   const expected = s.loadCoins();
   const returned = s.loadCoins();
-  const sign = s.loadInt(1) > 0 ? 1n : -1n;
+  const sign = s.loadBoolean() ? -1n : 1n;
   const coins = s.loadCoins();
   const profit = sign * coins;
   return {
